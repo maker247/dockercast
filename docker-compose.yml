@@ -5,3 +5,28 @@ services:
     build: 
       context: .
       dockerfile: nginx.dockerfile
+    ports: 
+      - 81:80
+    volumes:
+      - ./src:/var/www/html/public
+    depends_on:
+      - mysql
+      - php
+  mysql: 
+    image: mysql:5.7
+    ports: 
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: P@ssw0rd
+      MYSQL_ROOT_PASSWORD: P@ssw0rd
+    volumes:
+      - ./mysql:/var/lib/mysql
+  php: 
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    volumes: 
+      - ./src:/var/www/html/public
+    
